@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>happy birthday sayangku</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Yellowtail&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     TOKENS
+     ============================================================ */
+  :root{
+    --cream:        #efe6d2;
+    --cream-2:      #e7dbc0;
+    --ink:          #571224;
+    --ink-2:        #420c1b;
+    --ink-soft:     #6e2233;
+    --highlight:    #f8ecd9;
+    --gold:         #c98a4b;
+
+    --plum-0:       #1c0610;
+    --plum-1:       #3a0e1c;
+    --plum-2:       #5c1a2c;
+    --plum-glow:    #8a3450;
+    --text-on-dark: #f7ead9;
+
+    --font-serif:   'Playfair Display', serif;
+    --font-script:  'Yellowtail', cursive;
+    --font-hand:    'Caveat', cursive;
+    --font-body:    'Quicksand', sans-serif;
+    --font-bouncy:  'Baloo 2', sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; }
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    overflow-x:hidden;
+    background:var(--plum-0);
+  }
+  button{ font-family:inherit; cursor:pointer; background:none; border:none; }
+  img{ max-width:100%; display:block; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ============================================================
+     TEXTURES / BACKGROUNDS
+     ============================================================ */
+  .bg-paper{
+    background-color:var(--cream);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,0.55), transparent 55%),
+      radial-gradient(circle at 90% 95%, rgba(0,0,0,0.06), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .bg-dark{
+    background-color:var(--plum-0);
+    background-image:
+      radial-gradient(circle at 18% 25%, var(--plum-glow) 0%, transparent 45%),
+      radial-gradient(circle at 85% 20%, var(--plum-2) 0%, transparent 50%),
+      radial-gradient(circle at 75% 85%, var(--plum-1) 0%, transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:cover, cover, cover, 180px 180px;
+    animation:driftBg 22s ease-in-out infinite alternate;
+  }
+  @keyframes driftBg{
+    0%{ background-position:0% 0%, 0% 0%, 0% 0%, 0 0; }
+    100%{ background-position:6% 4%, -4% -3%, 3% -5%, 0 0; }
+  }
+
+  /* ============================================================
+     SCREEN SYSTEM
+     ============================================================ */
+  .screen{
+    position:relative;
+    display:none;
+    min-height:100vh;
+    width:100%;
+    padding:70px 24px 40px;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .screen.active{ display:flex; }
+
+  .panel{ position:relative; z-index:2; width:100%; max-width:920px; margin:0 auto; }
+
+  /* ---- ambient floating layer shared by every screen ---- */
+  .ambient{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+  .petals span{
+    position:absolute; top:-10%; width:13px; height:17px;
+    background:radial-gradient(circle at 30% 30%, #eeb9c6, #93233f 80%);
+    border-radius:60% 0% 60% 0%;
+    opacity:0;
+    animation-name:petalFall; animation-timing-function:linear; animation-iteration-count:infinite;
+  }
+  @keyframes petalFall{
+    0%{ transform:translate(0,-10%) rotate(0deg); opacity:0; }
+    8%{ opacity:.8; }
+    50%{ transform:translate(var(--drift,18px), 55vh) rotate(170deg); }
+    92%{ opacity:.7; }
+    100%{ transform:translate(calc(var(--drift,18px) * -1), 112vh) rotate(330deg); opacity:0; }
+  }
+  .embers span{
+    position:absolute; bottom:-6%; width:5px; height:5px; border-radius:50%;
+    background:radial-gradient(circle, #ffe3b0, #f3c64b 55%, transparent 100%);
+    opacity:0;
+    animation-name:emberRise; animation-timing-function:ease-in; animation-iteration-count:infinite;
+  }
+  @keyframes emberRise{
+    0%{ transform:translateY(0) scale(.5); opacity:0; }
+    18%{ opacity:.95; }
+    100%{ transform:translateY(-105vh) scale(1.1); opacity:0; }
+  }
+
+  /* ============================================================
+     ENTRANCE HELPERS
+     ============================================================ */
+
+  /* -- reveal: teks ngetik (dihandle JS), ini fallback fade-in -- */
+  .reveal{ opacity:0; }
+  .screen.active .reveal{ animation:fadeSlide .5s var(--d,0s) cubic-bezier(.25,.8,.25,1) both; }
+  @keyframes fadeSlide{
+    0%{ opacity:0; transform:translateY(10px); }
+    100%{ opacity:1; transform:translateY(0); }
+  }
+
+  /* -- pop: icon/gambar masuk dengan bounce -- */
+  .pop{ opacity:0; transform:scale(.5); }
+  .screen.active .pop{ animation:popIn .6s var(--d,0s) cubic-bezier(.34,1.56,.64,1) both; }
+  @keyframes popIn{
+    0%{ opacity:0; transform:scale(.5) rotate(-4deg); }
+    65%{ opacity:1; transform:scale(1.06) rotate(1.5deg); }
+    100%{ opacity:1; transform:scale(1) rotate(0deg); }
+  }
+
+  /* -- toss: polaroid/photobooth masuk -- */
+  .toss{ opacity:0; }
+  .screen.active .toss{ animation:tossIn .55s var(--d,0s) cubic-bezier(.25,.8,.25,1) both; }
+  @keyframes tossIn{
+    0%{ opacity:0; transform:translateY(32px) scale(.88); }
+    100%{ opacity:1; transform:translateY(0) rotate(var(--rot,0deg)) scale(1); }
+  }
+
+  /* -- bloom-in: kelopak bunga -- */
+  .bloom-in{ opacity:0; transform-box:fill-box; transform-origin:50% 100%; }
+  .screen.active .bloom-in{ animation:bloomIn .6s var(--d,0s) cubic-bezier(.34,1.4,.64,1) both; }
+  @keyframes bloomIn{ 0%{ transform:scale(0); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+
+  /* -- tw: elemen yang teksnya akan di-typewrite JS — hidden awal -- */
+  .tw{ opacity:0; }
+  .tw.tw-done{ opacity:1; }
+
+  /* -- draw: SVG icon masuk dengan stroke draw effect -- */
+  .draw-icon{ opacity:0; }
+  .screen.active .draw-icon{ animation:iconAppear .4s var(--d,0s) ease both; }
+  @keyframes iconAppear{ 0%{ opacity:0; transform:scale(.7); } 100%{ opacity:1; transform:scale(1); } }
+
+  /* cursor blink untuk typewriter */
+  .tw-cursor{
+    display:inline-block; width:2px; height:0.9em;
+    background:currentColor; vertical-align:middle;
+    margin-left:1px; border-radius:1px;
+    animation:twBlink .65s step-end infinite;
+  }
+  @keyframes twBlink{ 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+
+  /* ============================================================
+     SHIMMER TEXT (script titles get a slow living sheen)
+     ============================================================ */
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .shimmer{
+      background:linear-gradient(100deg, var(--ink) 25%, var(--gold) 50%, var(--ink) 75%);
+      background-size:240% 100%;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation:shimmer 5.5s linear infinite;
+    }
+    .shimmer-dark{
+      background:linear-gradient(100deg, var(--text-on-dark) 25%, #ffd9a0 50%, var(--text-on-dark) 75%);
+      background-size:240% 100%;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation:shimmer 5.5s linear infinite;
+    }
+  }
+  @keyframes shimmer{ from{ background-position:240% 0; } to{ background-position:-240% 0; } }
+
+  /* ============================================================
+     SHARED BUTTON / LINK STYLES
+     ============================================================ */
+  .pill-btn{
+    font-family:var(--font-hand); font-weight:700; font-size:1.25rem;
+    color:var(--highlight);
+    background:linear-gradient(160deg, var(--ink-soft), var(--ink-2));
+    padding:10px 30px; border-radius:999px; position:relative;
+    box-shadow:0 6px 14px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.25);
+    text-decoration:underline; text-underline-offset:4px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .pill-btn:hover{ transform:translateY(-2px) scale(1.03); }
+  .pill-btn:active{ transform:translateY(0) scale(.98); }
+  .pill-btn.glow{ animation:glowPulse 2.6s ease-in-out infinite; }
+  @keyframes glowPulse{
+    0%,100%{ box-shadow:0 6px 14px rgba(0,0,0,.25), 0 0 0 rgba(201,138,75,0); }
+    50%{ box-shadow:0 6px 18px rgba(0,0,0,.3), 0 0 18px rgba(201,138,75,.55); }
+  }
+
+  .ghost-btn{
+    font-family:var(--font-hand); font-weight:700; font-size:1.3rem;
+    color:var(--ink); text-decoration:underline; text-underline-offset:4px;
+    display:inline-flex; align-items:center; gap:4px;
+    transition:transform .15s ease, letter-spacing .15s ease;
+  }
+  .ghost-btn:hover{ transform:translateX(-3px); }
+  .ghost-btn.on-dark{ color:var(--text-on-dark); }
+
+  .back-row{ width:100%; display:flex; justify-content:center; margin-top:28px; }
+
+  /* ============================================================
+     SCREEN 1 — LANDING
+     ============================================================ */
+  #screen-landing .panel{ display:flex; align-items:center; justify-content:center; gap:48px; flex-wrap:wrap; }
+  .cake-icon{ width:200px; height:auto; color:var(--ink); flex-shrink:0; filter:drop-shadow(0 6px 12px rgba(87,18,36,.22)); }
+  .cake-icon .flame{ transform-box:fill-box; transform-origin:50% 100%; animation:flicker 1.6s ease-in-out infinite; }
+  .cake-icon .flame.f2{ animation-duration:1.4s; animation-delay:.15s; }
+  .cake-icon .flame.f3{ animation-duration:1.8s; animation-delay:.3s; }
+  @keyframes flicker{
+    0%,100%{ transform:scale(1) rotate(0deg); opacity:1; }
+    25%{ transform:scale(1.1,.88) rotate(-5deg); opacity:.85; }
+    50%{ transform:scale(.9,1.12) rotate(4deg); opacity:1; }
+    75%{ transform:scale(1.05,.95) rotate(-2deg); opacity:.92; }
+  }
+
+  .landing-copy{ max-width:380px; text-align:left; }
+  .landing-copy h1{ margin:0; font-family:var(--font-serif); font-size:3.4rem; line-height:0.95; color:var(--ink); }
+  .landing-copy h1 span{ display:block; font-family:var(--font-script); font-size:3.6rem; margin-top:-6px; }
+  .landing-copy p{ font-family:var(--font-body); font-size:1.05rem; margin:18px 0 26px; color:var(--ink-soft); }
+  .landing-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+
+  @media (max-width:680px){
+    #screen-landing .panel{ flex-direction:column; text-align:center; gap:24px; }
+    .landing-copy{ text-align:center; }
+    .landing-copy h1{ font-size:2.6rem; }
+    .landing-copy h1 span{ font-size:2.8rem; }
+    .cake-icon{ width:150px; }
+  }
+
+  /* ============================================================
+     SCREEN 2 — "NOOO" RESPONSE
+     ============================================================ */
+  #screen-no .panel{ text-align:center; }
+  .promise-text{
+    font-family:var(--font-bouncy); font-weight:800; font-size:2.4rem;
+    color:transparent; -webkit-text-stroke:1.5px var(--text-on-dark);
+    margin:0 0 30px;
+    animation:neonIn .8s cubic-bezier(.21,.8,.32,1) both, neonFlicker 4.5s ease-in-out 1s infinite;
+  }
+  @keyframes neonIn{ 0%{ opacity:0; transform:scale(.7); filter:drop-shadow(0 0 0 rgba(247,234,217,0)); } 100%{ opacity:1; transform:scale(1); } }
+  @keyframes neonFlicker{
+    0%,100%{ filter:drop-shadow(0 0 6px rgba(247,234,217,.55)); }
+    45%{ opacity:.85; } 48%{ opacity:.5; } 50%{ opacity:.95; }
+    70%{ filter:drop-shadow(0 0 12px rgba(247,234,217,.8)); }
+  }
+  @media (max-width:680px){ .promise-text{ font-size:1.7rem; } }
+
+  /* ============================================================
+     SCREEN 3 — MENU (4 icon buttons)
+     ============================================================ */
+  #screen-menu .panel{ text-align:center; }
+  #screen-menu h2{ font-family:var(--font-script); font-size:2.6rem; color:var(--ink); margin:0 0 40px; }
+  .menu-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; max-width:640px; margin:0 auto; }
+  .menu-card{
+    background:var(--cream); border:1.5px solid var(--ink); border-radius:16px;
+    aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 0 rgba(87,18,36,0.12);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .menu-card:hover{ transform:translateY(-5px) rotate(-2deg); box-shadow:0 10px 0 rgba(87,18,36,0.12); }
+  .menu-card svg{ width:58%; height:58%; color:var(--ink); overflow:visible; }
+
+  /* icon micro-animations */
+  .icon-photos .card{ transform-box:fill-box; transform-origin:center; }
+  .icon-photos .card-a{ animation:cardA 4s ease-in-out infinite; }
+  .icon-photos .card-b{ animation:cardB 4s ease-in-out infinite; }
+  @keyframes cardA{ 0%,100%{ transform:rotate(-9deg); } 50%{ transform:rotate(-13deg) translateY(-2px); } }
+  @keyframes cardB{ 0%,100%{ transform:rotate(9deg); } 50%{ transform:rotate(13deg) translateY(2px); } }
+
+  .icon-bouquet .bloom{ transform-box:fill-box; transform-origin:center; animation:sway 3.4s ease-in-out infinite; }
+  @keyframes sway{ 0%,100%{ transform:rotate(-3deg); } 50%{ transform:rotate(3deg); } }
+
+  .icon-video .play-ring{ transform-box:fill-box; transform-origin:center; animation:ringPulse 2.4s ease-in-out infinite; }
+  .icon-video .play-tri{ transform-box:fill-box; transform-origin:center; animation:triPop 2.4s ease-in-out infinite; }
+  .icon-video .note{ transform-box:fill-box; transform-origin:bottom; animation:noteBounce 2.8s ease-in-out infinite; }
+  @keyframes ringPulse{ 0%,100%{ transform:scale(1); opacity:1; } 50%{ transform:scale(1.1); opacity:.75; } }
+  @keyframes triPop{ 0%,100%{ transform:scale(1) translateX(0); } 50%{ transform:scale(1.15) translateX(1px); } }
+  @keyframes noteBounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-3px); } }
+
+  .icon-envelope .flap{ transform-box:fill-box; transform-origin:50% 0%; animation:envFlap 3.2s ease-in-out infinite; }
+  @keyframes envFlap{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-2px); } }
+
+  @media (max-width:560px){
+    .menu-grid{ grid-template-columns:repeat(2,1fr); }
+    #screen-menu h2{ font-size:2.1rem; }
+  }
+
+  /* ============================================================
+     SCREEN 4 — MESSAGE
+     ============================================================ */
+  #screen-message .panel{ max-width:680px; }
+  #screen-message h2{ font-family:var(--font-script); font-size:2.4rem; text-align:center; color:var(--ink); margin:0 0 22px; }
+  .letter{ font-family:var(--font-body); font-size:1.02rem; line-height:1.7; color:var(--ink-2); max-height:58vh; overflow-y:auto; padding-right:6px; }
+  .letter p{ margin:0 0 18px; opacity:0; transition:opacity .1s; }
+  .letter::-webkit-scrollbar{ width:6px; }
+  .letter::-webkit-scrollbar-thumb{ background:var(--ink-soft); border-radius:4px; }
+
+  /* ============================================================
+     SCREEN 5 — ABOUT YOU
+     ============================================================ */
+  #screen-about .panel{ max-width:780px; }
+  #screen-about h2{ font-family:var(--font-script); font-size:2.6rem; text-align:center; color:var(--ink); margin:0 0 30px; }
+  .about-wrap{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:22px; }
+  .bubble-col{ display:flex; flex-direction:column; gap:14px; }
+  .bubble{
+    background:linear-gradient(160deg, var(--ink-soft), var(--ink-2)); color:var(--highlight);
+    font-family:var(--font-body); font-weight:600; font-size:0.85rem; line-height:1.3; text-align:center;
+    border-radius:999px; padding:14px 18px; box-shadow:0 5px 10px rgba(0,0,0,0.2);
+    transition:transform .2s ease;
+  }
+  .bubble:hover{ transform:scale(1.05); }
+  .flower-frame{
+    width:230px; height:230px; border:1.5px solid var(--ink); border-radius:18px;
+    background:var(--cream-2); display:flex; align-items:center; justify-content:center;
+    padding:18px; position:relative;
+  }
+  .flower-frame::before{
+    content:''; position:absolute; inset:-10px; border-radius:24px;
+    background:radial-gradient(circle, rgba(122,28,46,.25), transparent 70%);
+    animation:glowBreathe 4s ease-in-out infinite; z-index:-1;
+  }
+  @keyframes glowBreathe{ 0%,100%{ opacity:.4; transform:scale(.96); } 50%{ opacity:.8; transform:scale(1.04); } }
+  .flower-frame svg{ width:100%; height:100%; }
+
+  @media (max-width:760px){
+    .about-wrap{ grid-template-columns:1fr; }
+    .flower-frame{ order:-1; margin:0 auto 18px; width:190px; height:190px; }
+    .bubble-col{ flex-direction:row; flex-wrap:wrap; justify-content:center; }
+    .bubble{ flex:1 1 160px; font-size:0.8rem; }
+  }
+
+  /* ============================================================
+     SCREEN 6 — SONG
+     ============================================================ */
+  #screen-song .panel{ max-width:560px; text-align:center; }
+  #screen-song h2{ font-family:var(--font-script); font-size:2rem; color:var(--text-on-dark); margin:0 0 6px; }
+  .eq{ display:flex; gap:4px; justify-content:center; align-items:flex-end; height:22px; margin:0 auto 20px; }
+  .eq span{ width:4px; background:var(--text-on-dark); border-radius:2px; transform-origin:bottom; animation:eqBounce 1.1s ease-in-out infinite; opacity:.85; }
+  .eq span:nth-child(1){ height:8px; animation-delay:0s; }
+  .eq span:nth-child(2){ height:16px; animation-delay:.15s; }
+  .eq span:nth-child(3){ height:10px; animation-delay:.3s; }
+  .eq span:nth-child(4){ height:18px; animation-delay:.45s; }
+  .eq span:nth-child(5){ height:12px; animation-delay:.6s; }
+  @keyframes eqBounce{ 0%,100%{ transform:scaleY(.4); } 50%{ transform:scaleY(1); } }
+
+  .video-frame-wrap{
+    padding:5px; border-radius:22px;
+    background:linear-gradient(135deg,#ffffff,#d9b8ff 35%,#8fd6ff 70%,#ffffff);
+    background-size:200% 200%;
+    box-shadow:0 0 32px rgba(190,160,255,0.45);
+    margin-bottom:28px;
+    animation:borderFlow 6s ease infinite;
+  }
+  @keyframes borderFlow{ 0%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } 100%{ background-position:0% 50%; } }
+  .video-frame-wrap .video-inner{ border-radius:18px; overflow:hidden; aspect-ratio:16/9; background:#000; }
+  .video-frame-wrap iframe{ width:100%; height:100%; border:none; display:block; }
+
+  /* ============================================================
+     SCREEN 7 — MEMORIES
+     ============================================================ */
+  #screen-memories .panel{ max-width:760px; text-align:center; position:relative; }
+  #screen-memories h2{ font-family:var(--font-script); font-size:2.3rem; color:var(--text-on-dark); margin:26px 0 6px; }
+  .collage{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:18px; margin-bottom:10px; position:relative; z-index:2; }
+  .polaroid{
+    background:#fbf3e3; padding:8px 8px 22px; width:128px;
+    box-shadow:0 8px 16px rgba(0,0,0,0.4); border-radius:2px;
+    transition:transform .25s ease;
+  }
+  .polaroid:hover{ transform:scale(1.06) rotate(0deg) !important; z-index:5; }
+  .polaroid .ph{
+    width:100%; height:104px;
+    background:repeating-linear-gradient(135deg, #caa6a6, #caa6a6 8px, #b88f8f 8px, #b88f8f 16px);
+    display:flex; align-items:center; justify-content:center; color:#fff8ec;
+  }
+  .polaroid .ph svg{ width:30px; height:30px; opacity:.85; }
+  .polaroid .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .polaroid .cap{ display:block; text-align:center; font-family:var(--font-hand); font-size:0.75rem; color:#5b3a3a; margin-top:6px; }
+
+  .photobooth{
+    background:#7a1626; padding:8px; border-radius:5px;
+    display:flex; flex-direction:column; gap:6px; box-shadow:0 8px 16px rgba(0,0,0,0.4);
+    transition:transform .25s ease;
+  }
+  .photobooth:hover{ transform:scale(1.05) !important; z-index:5; }
+  .photobooth .ph{
+    width:84px; height:60px;
+    background:repeating-linear-gradient(135deg, #caa6a6, #caa6a6 8px, #b88f8f 8px, #b88f8f 16px);
+    border:3px solid #fff; display:flex; align-items:center; justify-content:center; color:#fff8ec;
+  }
+  .photobooth .ph svg{ width:20px; height:20px; opacity:.85; }
+  .photobooth .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .doodle{ position:absolute; color:rgba(247,234,217,0.5); width:46px; height:46px; z-index:1; }
+  .doodle.d1{ top:-6px; left:0; }
+  .doodle.d2{ top:18px; right:4%; transform:rotate(12deg); }
+  .doodle.d1{ animation:doodleFloat 5s ease-in-out infinite; }
+  .doodle.d2{ animation:doodleFloat 6s ease-in-out infinite reverse; }
+  @keyframes doodleFloat{ 0%,100%{ transform:translateY(0) rotate(0deg); } 50%{ transform:translateY(-6px) rotate(8deg); } }
+
+  @media (max-width:560px){
+    .polaroid{ width:104px; }
+    .polaroid .ph{ height:84px; }
+    .photobooth .ph{ width:66px; height:48px; }
+  }
+
+  .vh{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     Background music placeholder.
+     Ganti src="" di bawah dengan link/file musik kamu sendiri,
+     misalnya: <source src="musik-kita.mp3" type="audio/mpeg">
+     ============================================================ -->
+<!-- =====================================================
+     🎵 MUSIK BACKGROUND
+     Taruh file MP3 di folder yang sama dengan file HTML ini,
+     lalu ganti "nama-lagu.mp3" di bawah dengan nama file kamu.
+     Contoh: <source src="a-thousand-years.mp3" type="audio/mpeg">
+     ===================================================== -->
+<audio id="bgMusic" loop>
+  <source src="xxl.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ============================================================
+     SCREEN 1 — LANDING
+     ============================================================ -->
+<section class="screen bg-paper active" id="screen-landing">
+  <div class="ambient petals" aria-hidden="true">
+    <span style="left:4%;animation-delay:0s;animation-duration:16s;--drift:24px;"></span>
+    <span style="left:16%;animation-delay:3s;animation-duration:13s;--drift:-18px;"></span>
+    <span style="left:28%;animation-delay:6s;animation-duration:18s;--drift:14px;"></span>
+    <span style="left:42%;animation-delay:1.5s;animation-duration:15s;--drift:-22px;"></span>
+    <span style="left:58%;animation-delay:4.5s;animation-duration:17s;--drift:20px;"></span>
+    <span style="left:71%;animation-delay:8s;animation-duration:14s;--drift:-16px;"></span>
+    <span style="left:84%;animation-delay:2s;animation-duration:19s;--drift:18px;"></span>
+    <span style="left:93%;animation-delay:6.5s;animation-duration:13s;--drift:-12px;"></span>
+  </div>
+
+  <div class="panel">
+    <!-- CAKE ICON — elegant stroke/linework, 3 tiers -->
+    <svg class="cake-icon pop" style="--d:0s" viewBox="0 0 200 230" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+
+      <!-- plate shadow -->
+      <ellipse cx="100" cy="210" rx="72" ry="8" stroke-width="1.5" opacity="0.25"/>
+
+      <!-- ─── BOTTOM TIER ─── -->
+      <path d="M30,200 Q30,205 35,205 L165,205 Q170,205 170,200 L170,148 Q170,143 165,143 L35,143 Q30,143 30,148 Z"/>
+      <!-- frosting scallop top -->
+      <path d="M30,143 Q40,132 50,143 Q60,132 70,143 Q80,132 90,143 Q100,132 110,143 Q120,132 130,143 Q140,132 150,143 Q160,132 170,143" stroke-width="2.5"/>
+      <!-- frosting drips -->
+      <path d="M44,143 Q46,155 44,162" stroke-width="1.5"/>
+      <path d="M70,143 Q72,159 70,168" stroke-width="1.5"/>
+      <path d="M100,143 Q102,157 100,165" stroke-width="1.5"/>
+      <path d="M130,143 Q132,159 130,168" stroke-width="1.5"/>
+      <path d="M156,143 Q158,155 156,162" stroke-width="1.5"/>
+      <!-- vertical separator lines -->
+      <line x1="58" y1="148" x2="58" y2="201" stroke-width="1" opacity="0.45"/>
+      <line x1="86" y1="148" x2="86" y2="201" stroke-width="1" opacity="0.45"/>
+      <line x1="114" y1="148" x2="114" y2="201" stroke-width="1" opacity="0.45"/>
+      <line x1="142" y1="148" x2="142" y2="201" stroke-width="1" opacity="0.45"/>
+      <!-- decorative dots row -->
+      <circle cx="44" cy="176" r="2" fill="currentColor" stroke="none"/>
+      <circle cx="72" cy="180" r="1.6" fill="currentColor" stroke="none" opacity="0.55"/>
+      <circle cx="100" cy="177" r="2" fill="currentColor" stroke="none"/>
+      <circle cx="128" cy="180" r="1.6" fill="currentColor" stroke="none" opacity="0.55"/>
+      <circle cx="156" cy="176" r="2" fill="currentColor" stroke="none"/>
+      <!-- ribbon knot accent -->
+      <path d="M92,165 Q96,160 100,165 Q104,160 108,165" stroke-width="1.4"/>
+      <circle cx="100" cy="165" r="1.6" fill="currentColor" stroke="none"/>
+
+      <!-- ─── MIDDLE TIER ─── -->
+      <path d="M56,142 L56,100 Q56,95 61,95 L139,95 Q144,95 144,100 L144,142"/>
+      <!-- frosting scallop -->
+      <path d="M56,95 Q65,84 74,95 Q83,84 92,95 Q101,84 110,95 Q119,84 128,95 Q137,84 144,95" stroke-width="2.2"/>
+      <!-- drips -->
+      <path d="M64,95 Q66,107 64,114" stroke-width="1.4"/>
+      <path d="M88,95 Q90,109 88,118" stroke-width="1.4"/>
+      <path d="M112,95 Q114,107 112,114" stroke-width="1.4"/>
+      <path d="M136,95 Q138,107 136,114" stroke-width="1.4"/>
+      <!-- dots -->
+      <circle cx="76" cy="118" r="1.8" fill="currentColor" stroke="none"/>
+      <circle cx="100" cy="122" r="2" fill="currentColor" stroke="none"/>
+      <circle cx="124" cy="118" r="1.8" fill="currentColor" stroke="none"/>
+      <!-- heart outline -->
+      <path d="M100,133 C96,128 88,128 88,134 C88,140 100,147 100,147 C100,147 112,140 112,134 C112,128 104,128 100,133 Z" stroke-width="1.5"/>
+
+      <!-- ─── TOP TIER ─── -->
+      <path d="M72,94 L72,63 Q72,58 77,58 L123,58 Q128,58 128,63 L128,94"/>
+      <!-- frosting scallop -->
+      <path d="M72,58 Q80,49 88,58 Q96,49 104,58 Q112,49 120,58 Q126,49 128,58" stroke-width="2"/>
+      <!-- drips -->
+      <path d="M79,58 Q81,68 79,75" stroke-width="1.3"/>
+      <path d="M100,58 Q102,70 100,78" stroke-width="1.3"/>
+      <path d="M121,58 Q123,68 121,75" stroke-width="1.3"/>
+      <!-- dots -->
+      <circle cx="90" cy="76" r="1.5" fill="currentColor" stroke="none"/>
+      <circle cx="110" cy="76" r="1.5" fill="currentColor" stroke="none"/>
+
+      <!-- ─── CANDLES ─── -->
+      <rect x="77" y="41" width="7" height="17" rx="3.5"/>
+      <line x1="77" y1="47" x2="84" y2="47" stroke-width="1" opacity="0.35"/>
+      <line x1="77" y1="52" x2="84" y2="52" stroke-width="1" opacity="0.35"/>
+
+      <rect x="96" y="33" width="8" height="25" rx="4"/>
+      <line x1="96" y1="40" x2="104" y2="40" stroke-width="1" opacity="0.35"/>
+      <line x1="96" y1="46" x2="104" y2="46" stroke-width="1" opacity="0.35"/>
+      <line x1="96" y1="52" x2="104" y2="52" stroke-width="1" opacity="0.35"/>
+
+      <rect x="116" y="41" width="7" height="17" rx="3.5"/>
+      <line x1="116" y1="47" x2="123" y2="47" stroke-width="1" opacity="0.35"/>
+      <line x1="116" y1="52" x2="123" y2="52" stroke-width="1" opacity="0.35"/>
+
+      <!-- wicks -->
+      <line x1="80.5" y1="41" x2="80.5" y2="37" stroke-width="1.8"/>
+      <line x1="100" y1="33" x2="100" y2="28" stroke-width="1.8"/>
+      <line x1="119.5" y1="41" x2="119.5" y2="37" stroke-width="1.8"/>
+
+      <!-- ─── FLAMES ─── -->
+      <path class="flame f1" d="M80.5,37 Q75,27 80.5,18 Q86,27 80.5,37" fill="currentColor"/>
+      <path class="flame f2" d="M100,28 Q93,16 100,5 Q107,16 100,28" fill="currentColor"/>
+      <path class="flame f3" d="M119.5,37 Q114,27 119.5,18 Q125,27 119.5,37" fill="currentColor"/>
+
+      <!-- ─── PLATE ─── -->
+      <path d="M20,206 Q100,214 180,206" stroke-width="2.5"/>
+    </svg>
+
+    <div class="landing-copy">
+      <h1><span class="tw" data-tw-delay="200">Happy</span><span class="tw shimmer" data-tw-delay="600">Birthday</span></h1>
+      <p class="tw" data-tw-delay="1100">do you want too see your gift?</p>
+      <div class="landing-actions">
+        <button class="pill-btn glow reveal" style="--d:1.4s" type="button" data-go="screen-menu">yes!!!</button>
+        <button class="pill-btn reveal" style="--d:1.55s" type="button" data-go="screen-no">noo :(</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 2 — "NOOO" RESPONSE
+     ============================================================ -->
+<section class="screen bg-dark" id="screen-no">
+  <div class="ambient embers" aria-hidden="true">
+    <span style="left:6%;animation-delay:0s;animation-duration:9s;"></span>
+    <span style="left:18%;animation-delay:1.5s;animation-duration:11s;"></span>
+    <span style="left:32%;animation-delay:3s;animation-duration:8s;"></span>
+    <span style="left:48%;animation-delay:.7s;animation-duration:10s;"></span>
+    <span style="left:62%;animation-delay:2.2s;animation-duration:9.5s;"></span>
+    <span style="left:76%;animation-delay:4s;animation-duration:8.5s;"></span>
+    <span style="left:90%;animation-delay:1s;animation-duration:11s;"></span>
+  </div>
+  <div class="panel">
+    <p class="promise-text">i promise you'll like it :(</p>
+    <button class="pill-btn reveal" style="--d:.6s" type="button" data-go="screen-landing">try again ↩</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 3 — MENU
+     ============================================================ -->
+<section class="screen bg-paper" id="screen-menu">
+  <div class="ambient petals" aria-hidden="true">
+    <span style="left:5%;animation-delay:0s;animation-duration:15s;--drift:20px;"></span>
+    <span style="left:20%;animation-delay:4s;animation-duration:17s;--drift:-16px;"></span>
+    <span style="left:38%;animation-delay:1s;animation-duration:14s;--drift:22px;"></span>
+    <span style="left:55%;animation-delay:6s;animation-duration:18s;--drift:-18px;"></span>
+    <span style="left:70%;animation-delay:2.5s;animation-duration:13s;--drift:16px;"></span>
+    <span style="left:88%;animation-delay:5s;animation-duration:16s;--drift:-20px;"></span>
+  </div>
+  <div class="panel">
+    <h2 class="tw shimmer" data-tw-delay="0">Happy birthday sayangku</h2>
+    <div class="menu-grid">
+
+      <button class="menu-card pop" style="--d:.3s" type="button" data-go="screen-memories" aria-label="memories">
+        <svg class="icon-photos draw-icon" style="--d:.35s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <g class="card card-a"><rect x="14" y="24" width="42" height="50" rx="5"/><path d="M35,46 c-3,-5 -10,-3 -10,2 c0,5 10,10 10,10 c0,0 10,-5 10,-10 c0,-5 -7,-7 -10,-2 Z" fill="currentColor" stroke="none"/></g>
+          <g class="card card-b"><rect x="42" y="28" width="42" height="50" rx="5"/><path d="M63,57 c-3,-5 -10,-3 -10,2 c0,5 10,10 10,10 c0,0 10,-5 10,-10 c0,-5 -7,-7 -10,-2 Z" fill="currentColor" stroke="none"/></g>
+        </svg>
+      </button>
+
+      <button class="menu-card pop" style="--d:.45s" type="button" data-go="screen-about" aria-label="about you">
+        <svg class="icon-bouquet draw-icon" style="--d:.5s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <g class="bloom" style="animation-delay:0s"><circle cx="28" cy="40" r="6"/><circle cx="22" cy="34" r="4"/><circle cx="34" cy="34" r="4"/><circle cx="22" cy="46" r="4"/><circle cx="34" cy="46" r="4"/><circle cx="28" cy="40" r="2.2" fill="currentColor" stroke="none"/></g>
+          <g class="bloom" style="animation-delay:.4s"><circle cx="50" cy="27" r="7"/><circle cx="43" cy="20" r="4.5"/><circle cx="57" cy="20" r="4.5"/><circle cx="43" cy="34" r="4.5"/><circle cx="57" cy="34" r="4.5"/><circle cx="50" cy="27" r="2.5" fill="currentColor" stroke="none"/></g>
+          <g class="bloom" style="animation-delay:.8s"><circle cx="72" cy="40" r="6"/><circle cx="66" cy="34" r="4"/><circle cx="78" cy="34" r="4"/><circle cx="66" cy="46" r="4"/><circle cx="78" cy="46" r="4"/><circle cx="72" cy="40" r="2.2" fill="currentColor" stroke="none"/></g>
+          <path d="M28,46 Q35,62 50,72"/>
+          <path d="M50,35 L50,72"/>
+          <path d="M72,46 Q65,62 50,72"/>
+          <path d="M50,72 L40,84 L50,78 L60,84 Z" fill="currentColor" stroke="none"/>
+          <circle cx="50" cy="78" r="3" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+
+      <button class="menu-card pop" style="--d:.6s" type="button" data-go="screen-song" aria-label="our song">
+        <svg class="icon-video draw-icon" style="--d:.65s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="10" y="24" width="80" height="52" rx="10"/>
+          <circle class="play-ring" cx="50" cy="50" r="16"/>
+          <path class="play-tri" d="M44,43 L60,50 L44,57 Z" fill="currentColor" stroke="none"/>
+          <path class="note" d="M76,32 L76,38 M76,32 L80,30 L80,36" stroke-width="2"/>
+          <circle cx="75" cy="39" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="79" cy="37" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+
+      <button class="menu-card pop" style="--d:.75s" type="button" data-go="screen-message" aria-label="message">
+        <svg class="icon-envelope draw-icon" style="--d:.8s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="14" y="30" width="72" height="48" rx="5"/>
+          <path class="flap" d="M14,32 L50,58 L86,32"/>
+          <path d="M50,46 c-3,-5 -10,-3 -10,2 c0,5 10,10 10,10 c0,0 10,-5 10,-10 c0,-5 -7,-7 -10,-2 Z" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 4 — MESSAGE
+     ============================================================ -->
+<section class="screen bg-paper" id= "screen-message">
+  <div class="ambient petals" aria-hidden="true">
+    <span style="left:8%;animation-delay:0s;animation-duration:16s;--drift:18px;"></span>
+    <span style="left:26%;animation-delay:5s;animation-duration:14s;--drift:-20px;"></span>
+    <span style="left:64%;animation-delay:2s;animation-duration:17s;--drift:22px;"></span>
+    <span style="left:90%;animation-delay:7s;animation-duration:15s;--drift:-14px;"></span>
+  </div>
+  <div class="panel">
+    <h2 class="tw shimmer" data-tw-delay="0">My message to you</h2>
+    <div class="letter">
+      <p data-tw="0">happy birthday my love!! it's your special day, wish you all the best yaa, maaf ya kalo sampe sekarang aku belum bisa kasih hal yang wow buat kamu, maaf juga kalo aku masih banyak kurangnya dan belum jadi yang terbaik. but trust me, i always try my best for u.</p>
+      <p data-tw="1">selamat bertambah usia sayang, semoga di umur kamu sekarang kamu makin dewasa, makin bahagia, makin disayang banyak orang, dan tentu aja makin sayang sama keluarga dan aku jugaa xixixi. pacarku yang satu ini hebat banget, kamu udah lewatin banyak hal sampe bisa ada di titik sekarang. mungkin orang lain ga semuanya tau perjuangan kamu, tapi aku tau kamu sekuat itu. dan aku bangga banget punya kamu.</p>
+      <p data-tw="2">do you know? god loves you so much, jadi jangan pernah ngerasa sendiri yaa. kalo dunia lagi capeinn kamu, kalo pikiran lagi rame, inget masih ada aku yang selalu dukung kamu dan peduli sama kamu. i love youu 💖</p>
+      <p data-tw="3">makasih yaa udah lahir ke dunia ini, makasih udah tumbuh jadi orang sebaik kamu, makasih udah bertahan di hari-hari yang ga gampang, dan makasih juga udah hadir di hidup aku. kamu tuh salah satu hal baik yang pernah aku temuin. di umur kamu yang baru ini, aku cuma mau doa yang baik-baik buat kamu. semoga langkah kamu selalu dipermudah, rezeki kamu dilancarin, hati kamu selalu tenang, dan semua yang kamu pengenin bisa pelan-pelan tercapai.</p>
+      <p data-tw="4">tetap jadi kamu yang aku kenal yaa, yang baik, yang tulus, yang kadang nyebelin tapi selalu bikin kangen. happy birthday once again my lovee 🤍 i'm really grateful to have youu.</p>
+    </div>
+    <div class="back-row">
+      <button class="ghost-btn reveal" style="--d:.6s" type="button" data-go="screen-menu">back ↩</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 5 — ABOUT YOU
+     ============================================================ -->
+<section class="screen bg-paper" id="screen-about">
+  <div class="ambient petals" aria-hidden="true">
+    <span style="left:10%;animation-delay:0s;animation-duration:15s;--drift:18px;"></span>
+    <span style="left:34%;animation-delay:4s;animation-duration:17s;--drift:-16px;"></span>
+    <span style="left:66%;animation-delay:1.5s;animation-duration:14s;--drift:20px;"></span>
+    <span style="left:88%;animation-delay:6s;animation-duration:16s;--drift:-22px;"></span>
+  </div>
+  <div class="panel">
+    <h2 class="tw shimmer" data-tw-delay="0">about youu</h2>
+    <div class="about-wrap">
+      <div class="bubble-col">
+        <div class="bubble tw" data-tw-delay="200">you are kind to everyone ♥</div>
+        <div class="bubble tw" data-tw-delay="500">you overthink sometimes, but it's because you care</div>
+        <div class="bubble tw" data-tw-delay="800">you don't give up easily</div>
+        <div class="bubble tw" data-tw-delay="1100">you have a soft heart but also really strong</div>
+      </div>
+
+      <div class="flower-frame pop" style="--d:.15s">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#571224" stroke-width="2">
+          <g fill="#7a1c2e">
+            <path class="bloom-in" style="--d:.2s" d="M50,60 C30,55 22,35 30,18 C38,28 46,40 50,60 Z"/>
+            <path class="bloom-in" style="--d:.3s" d="M50,60 C70,55 78,35 70,18 C62,28 54,40 50,60 Z"/>
+            <path class="bloom-in" style="--d:.4s" d="M50,60 C46,40 50,20 50,10 C54,20 54,40 50,60 Z"/>
+            <path class="bloom-in" style="--d:.5s" d="M50,60 C34,52 18,52 8,42 C20,38 38,42 50,60 Z"/>
+            <path class="bloom-in" style="--d:.6s" d="M50,60 C66,52 82,52 92,42 C80,38 62,42 50,60 Z"/>
+          </g>
+          <circle class="reveal" style="--d:.7s" cx="50" cy="58" r="4" fill="#f3c64b"/>
+          <path class="reveal" style="--d:.75s" d="M50,62 L46,90" stroke="#3f6e3a" stroke-width="2.5"/>
+          <path class="reveal" style="--d:.8s" d="M46,76 C36,74 32,80 28,86" stroke="#3f6e3a" stroke-width="2"/>
+          <path class="reveal" style="--d:.85s" d="M46,82 C56,80 60,86 64,90" stroke="#3f6e3a" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="bubble-col">
+        <div class="bubble tw" data-tw-delay="300">you have your own unique way of making people happy</div>
+        <div class="bubble tw" data-tw-delay="600">your smile can change someone's mood instantly</div>
+        <div class="bubble tw" data-tw-delay="900">you care more than people realize</div>
+        <div class="bubble tw" data-tw-delay="1200">you're loved more than you think ✨</div>
+      </div>
+    </div>
+    <div class="back-row">
+      <button class="ghost-btn reveal" style="--d:1.4s" type="button" data-go="screen-menu">back ↩</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 6 — SONG
+     ============================================================ -->
+<section class="screen bg-dark" id="screen-song">
+  <div class="ambient embers" aria-hidden="true">
+    <span style="left:5%;animation-delay:0s;animation-duration:9s;"></span>
+    <span style="left:22%;animation-delay:2s;animation-duration:10s;"></span>
+    <span style="left:40%;animation-delay:.5s;animation-duration:8s;"></span>
+    <span style="left:58%;animation-delay:3s;animation-duration:11s;"></span>
+    <span style="left:76%;animation-delay:1.2s;animation-duration:9.5s;"></span>
+    <span style="left:92%;animation-delay:4s;animation-duration:8.5s;"></span>
+  </div>
+  <div class="panel">
+    <h2 class="tw shimmer-dark" data-tw-delay="0">This song reminds me of you ^o^</h2>
+    <div class="eq reveal" style="--d:.15s" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="video-frame-wrap reveal" style="--d:.3s">
+      <div class="video-inner">
+        <iframe src="https://youtu.be/OiwtQDRpl7U?si=VkUlJr4ax_m2HOis" title="LANY - XXL (Official Music Video)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <button class="ghost-btn on-dark reveal" style="--d:.45s" type="button" data-go="screen-menu">back ↩</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 7 — MEMORIES
+     Ganti tiap kotak .ph di bawah dengan foto asli kamu, contoh:
+     <div class="ph"><img src="foto1.jpeg" alt="kita"></div>
+     ============================================================ -->
+<section class="screen bg-dark" id="screen-memories">
+  <div class="ambient embers" aria-hidden="true">
+    <span style="left:8%;animation-delay:0s;animation-duration:9s;"></span>
+    <span style="left:24%;animation-delay:2s;animation-duration:10s;"></span>
+    <span style="left:46%;animation-delay:.8s;animation-duration:8.5s;"></span>
+    <span style="left:64%;animation-delay:3.2s;animation-duration:11s;"></span>
+    <span style="left:82%;animation-delay:1.4s;animation-duration:9s;"></span>
+  </div>
+  <div class="panel">
+    <svg class="doodle d1" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="20" y="40" width="60" height="45" rx="4"/>
+      <line x1="20" y1="58" x2="80" y2="58"/>
+      <line x1="50" y1="40" x2="50" y2="85"/>
+      <path d="M50,40 C40,20 20,25 25,38 C30,45 42,42 50,40 Z"/>
+      <path d="M50,40 C60,20 80,25 75,38 C70,45 58,42 50,40 Z"/>
+    </svg>
+    <svg class="doodle d2" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M50,50 C35,40 15,45 12,58 C30,62 42,56 50,50 Z"/>
+      <path d="M50,50 C65,40 85,45 88,58 C70,62 58,56 50,50 Z"/>
+      <circle cx="50" cy="50" r="6"/>
+    </svg>
+
+    <div class="collage">
+<!-- =====================================================
+     🖼️ FOTO — tinggal ganti nama file di setiap src=""
+     Taruh semua foto di folder yang sama dengan file HTML ini
+     ===================================================== -->
+
+      <!-- SLOT 1 -->
+      <div class="polaroid toss" style="--d:.05s;--rot:-7deg">
+        <div class="ph"><img src="foto1.jpeg" alt="foto 1"></div>
+        <span class="cap"></span>
+      </div>
+
+      <!-- SLOT 2 -->
+      <div class="polaroid toss" style="--d:.15s;--rot:5deg">
+        <div class="ph"><img src="foto2.jpeg" alt="foto 2"></div>
+        <span class="cap"></span>
+      </div>
+
+      <!-- SLOT 3-6 (photobooth) -->
+      <div class="photobooth toss" style="--d:.3s;--rot:0deg">
+        <div class="ph"><img src="foto3.jpeg" alt="foto 3"></div>
+        <div class="ph"><img src="foto4.jpeg" alt="foto 4"></div>
+        <div class="ph"><img src="foto5.jpeg" alt="foto 5"></div>
+        <div class="ph"><img src="foto6.jpeg" alt="foto 6"></div>
+      </div>
+
+      <!-- SLOT 7 -->
+      <div class="polaroid toss" style="--d:.45s;--rot:-4deg">
+        <div class="ph"><img src="foto7.jpeg" alt="foto 7"></div>
+        <span class="cap"></span>
+      </div>
+
+      <!-- SLOT 8 -->
+      <div class="polaroid toss" style="--d:.55s;--rot:6deg">
+        <div class="ph"><img src="foto8.jpeg" alt="foto 8"></div>
+        <span class="cap"></span>
+      </div>
+    </div>
+
+    <h2 class="tw shimmer-dark" data-tw-delay="600">Memoriess</h2>
+    <div class="back-row">
+      <button class="ghost-btn on-dark reveal" style="--d:.8s" type="button" data-go="screen-menu">back ↩</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* ============================================================
+     NAVIGATION
+     ============================================================ */
+  function goTo(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    var target = document.getElementById(id);
+    if(target){ target.classList.add('active'); }
+    window.scrollTo(0,0);
+    screenAnimateIn(id);
+  }
+  document.querySelectorAll('[data-go]').forEach(function(btn){
+    btn.addEventListener('click', function(){ goTo(btn.getAttribute('data-go')); });
+  });
+
+  /* ============================================================
+     UNIVERSAL TYPEWRITER ENGINE
+     ============================================================ */
+  var TW_SPEED        = 28;   // ms per character (default)
+  var TW_SPEED_TITLE  = 60;   // ms per char for big titles
+  var TW_SPEED_BUBBLE = 18;   // ms per char for bubbles
+  var TW_SPEED_LETTER = 16;   // ms per char for letter paragraphs
+  var TW_GAP          = 260;  // ms between items in a queue
+
+  // store originals before any manipulation
+  function storeOrig(el){
+    if(!el.dataset.twOrig) el.dataset.twOrig = el.textContent.trim();
+  }
+
+  function typeElement(el, speed, onDone){
+    storeOrig(el);
+    var full = el.dataset.twOrig;
+    el.textContent = '';
+    el.classList.add('tw-done');
+    // add cursor
+    var cur = document.createElement('span');
+    cur.className = 'tw-cursor';
+    el.appendChild(cur);
+
+    var i = 0;
+    var iv = setInterval(function(){
+      if(i < full.length){
+        el.insertBefore(document.createTextNode(full[i]), cur);
+        i++;
+        // scroll parent if needed (for letter)
+        var sc = el.closest('.letter');
+        if(sc) sc.scrollTop = sc.scrollHeight;
+      } else {
+        clearInterval(iv);
+        cur.remove();
+        if(onDone) onDone();
+      }
+    }, speed);
+  }
+
+  // Queue: type each element in sequence with a gap
+  function typeQueue(els, speed, gap){
+    var idx = 0;
+    function next(){
+      if(idx >= els.length) return;
+      var el = els[idx];
+      // reset
+      storeOrig(el);
+      el.textContent = '';
+      el.classList.remove('tw-done');
+      // small delay then type
+      setTimeout(function(){
+        typeElement(el, speed, function(){
+          idx++;
+          setTimeout(next, gap);
+        });
+      }, 0);
+    }
+    next();
+  }
+
+  // Determine speed from element
+  function speedFor(el){
+    if(el.tagName === 'H1' || el.tagName === 'H2') return TW_SPEED_TITLE;
+    if(el.classList.contains('bubble')) return TW_SPEED_BUBBLE;
+    return TW_SPEED;
+  }
+
+  /* ============================================================
+     PER-SCREEN ANIMATION ORCHESTRATION
+     ============================================================ */
+  function screenAnimateIn(id){
+    var screen = document.getElementById(id);
+    if(!screen) return;
+
+    // Reset all .tw inside this screen
+    screen.querySelectorAll('.tw').forEach(function(el){
+      storeOrig(el);
+      el.textContent = '';
+      el.classList.remove('tw-done');
+    });
+
+    if(id === 'screen-landing'){
+      // "Happy" → "Birthday" → paragraph → staggered
+      var h1spans = screen.querySelectorAll('h1 .tw');
+      var para = screen.querySelector('p.tw');
+      var items = Array.from(h1spans).concat(para ? [para] : []);
+      typeQueueMixed(items, TW_SPEED_TITLE, 120);
+    }
+
+    else if(id === 'screen-menu'){
+      var h2 = screen.querySelector('h2.tw');
+      if(h2) typeElement(h2, TW_SPEED_TITLE, null);
+      // icon cards already have pop + draw-icon CSS
+    }
+
+    else if(id === 'screen-message'){
+      var h2 = screen.querySelector('h2.tw');
+      var paras = Array.from(screen.querySelectorAll('.letter p[data-tw]'));
+
+      // Reset letter paras too
+      paras.forEach(function(p){
+        storeOrig(p);
+        p.textContent = '';
+        p.classList.remove('tw-done');
+        p.style.opacity = '0';
+      });
+
+      function startLetter(){
+        var idx2 = 0;
+        function nextPara(){
+          if(idx2 >= paras.length) return;
+          var p = paras[idx2];
+          p.style.opacity = '1';
+          p.classList.add('tw-done');
+          typeElement(p, TW_SPEED_LETTER, function(){
+            idx2++;
+            setTimeout(nextPara, 350);
+          });
+        }
+        nextPara();
+      }
+
+      if(h2){
+        typeElement(h2, TW_SPEED_TITLE, function(){
+          setTimeout(startLetter, 300);
+        });
+      } else {
+        startLetter();
+      }
+    }
+
+    else if(id === 'screen-about'){
+      var h2 = screen.querySelector('h2.tw');
+      var bubbles = Array.from(screen.querySelectorAll('.bubble.tw'));
+      if(h2){
+        typeElement(h2, TW_SPEED_TITLE, function(){
+          setTimeout(function(){
+            typeQueueMixed(bubbles, TW_SPEED_BUBBLE, 80);
+          }, 200);
+        });
+      }
+    }
+
+    else if(id === 'screen-song'){
+      var h2 = screen.querySelector('h2.tw');
+      if(h2) typeElement(h2, TW_SPEED_TITLE, null);
+    }
+
+    else if(id === 'screen-memories'){
+      var h2 = screen.querySelector('h2.tw');
+      if(h2) setTimeout(function(){ typeElement(h2, TW_SPEED_TITLE, null); }, 600);
+    }
+
+    else if(id === 'screen-no'){
+      // promise-text already has its own neon animation
+    }
+  }
+
+  // Mixed speed queue (each el uses speedFor)
+  function typeQueueMixed(els, defaultSpeed, gap){
+    var idx = 0;
+    function next(){
+      if(idx >= els.length) return;
+      var el = els[idx];
+      storeOrig(el);
+      el.textContent = '';
+      el.classList.remove('tw-done');
+      el.classList.add('tw-done'); // make visible
+      typeElement(el, speedFor(el) || defaultSpeed, function(){
+        idx++;
+        setTimeout(next, gap);
+      });
+    }
+    next();
+  }
+
+  // Run on initial landing screen
+  screenAnimateIn('screen-landing');
+
+  /* ============================================================
+     AUTOPLAY MUSIK — otomatis putar saat pertama kali user klik/tap
+     ============================================================ */
+  var audio = document.getElementById('bgMusic');
+  function startMusic(){
+    audio.play().catch(function(){});
+    document.removeEventListener('click', startMusic);
+    document.removeEventListener('touchstart', startMusic);
+  }
+  document.addEventListener('click', startMusic);
+  document.addEventListener('touchstart', startMusic);
+</script>
+
+</body>
+</html>
